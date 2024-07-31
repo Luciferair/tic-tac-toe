@@ -23,14 +23,12 @@ const Board_online = () => {
   const socket = useRef(null);
 
   useEffect(() => {
-    socket.current = io("https://backend-mu-steel-22.vercel.app");
+    socket.current = io("https://backend-production-76ab.up.railway.app");
 
-    // Handle socket connection
     socket.current.on("connect", () => {
       console.log("Socket.IO Client Connected");
     });
 
-    // Handle game start
     socket.current.on("startGame", ({ roomID, players }) => {
       setRoomID(roomID);
       setPlayers(players);
@@ -44,7 +42,6 @@ const Board_online = () => {
       }, 2000);
     });
 
-    // Handle move update
     socket.current.on("update", ({ index, player }) => {
       setSquares((prevSquares) => {
         const newSquares = prevSquares.slice();
@@ -55,7 +52,6 @@ const Board_online = () => {
       checkGameOver(calculateWinner(squares), squares);
     });
 
-    // Handle board reset
     socket.current.on("resetBoard", () => {
       setSquares(Array(9).fill(null));
       setIsXNext(true);
@@ -63,15 +59,13 @@ const Board_online = () => {
       setGameOver(false);
       setGameResult("");
       setShowFindNewPlayerButton(false);
-      setTimer(null);
+      setTimer(null);  
     });
 
-    // Handle timer start
     socket.current.on("startTimer", () => {
       setTimer(20);
     });
 
-    // Handle user disconnection
     socket.current.on("userDisconnected", () => {
       setGameResult("Your opponent has left the match.");
       setGameOver(true);
@@ -79,13 +73,11 @@ const Board_online = () => {
       setFindNewPlayer(true);
     });
 
-    // Handle game over
     socket.current.on("gameOver", ({ message }) => {
       setGameResult(message);
       setGameOver(true);
     });
 
-    // Handle find new player button
     socket.current.on("showFindNewPlayerButton", () => {
       setShowFindNewPlayerButton(true);
       setFindNewPlayer(true);
