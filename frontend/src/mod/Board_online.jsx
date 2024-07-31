@@ -23,7 +23,7 @@ const Board_online = () => {
   const socket = useRef(null);
 
   useEffect(() => {
-    socket.current = io("http://localhost:3000");
+    socket.current = io("backend-production-76ab.up.railway.app");
 
     socket.current.on("connect", () => {
       console.log("Socket.IO Client Connected");
